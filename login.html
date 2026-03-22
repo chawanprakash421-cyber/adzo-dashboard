@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adzo — Sign In</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a0533 0%, #2d1054 50%, #1a0533 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Sans', sans-serif; padding: 20px;
+  }
+  .card {
+    background: #fff; border-radius: 16px; padding: 40px;
+    width: 100%; max-width: 420px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .logo-box {
+    width: 44px; height: 44px; background: #7c5cfc;
+    border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-weight: 700; font-size: 16px;
+  }
+  .logo-name { font-size: 20px; font-weight: 700; color: #1a0533; }
+  .logo-sub { font-size: 10px; color: #7c5cfc; letter-spacing: 1.5px; font-weight: 600; }
+  h2 { font-size: 24px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+  p.sub { font-size: 14px; color: #888; margin-bottom: 28px; }
+  .error {
+    background: #fef2f2; border: 1px solid #fca5a5;
+    color: #dc2626; border-radius: 8px; padding: 12px 16px;
+    font-size: 14px; margin-bottom: 20px; display: none;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+  label { font-size: 14px; font-weight: 600; color: #374151; }
+  input {
+    padding: 12px 16px; border: 1.5px solid #e5e7eb;
+    border-radius: 8px; font-size: 15px; outline: none; font-family: inherit;
+  }
+  input:focus { border-color: #7c5cfc; }
+  button {
+    width: 100%; background: #7c5cfc; color: #fff; border: none;
+    border-radius: 8px; padding: 14px; font-size: 16px;
+    font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 4px;
+  }
+  button:disabled { opacity: 0.7; cursor: not-allowed; }
+  .footer { text-align: center; font-size: 13px; color: #888; margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-box">AZ</div>
+    <div>
+      <div class="logo-name">Adzo</div>
+      <div class="logo-sub">AI GROWTH PLATFORM</div>
+    </div>
+  </div>
+  <h2>Welcome back</h2>
+  <p class="sub">Sign in to your dashboard</p>
+  <div class="error" id="error"></div>
+  <div class="field">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="you@example.com" required>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="••••••••" required>
+  </div>
+  <button id="btn" onclick="handleLogin()">Sign In</button>
+  <p class="footer">Need access? Contact your Adzo admin</p>
+</div>
+<script>
+async function handleLogin() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const btn = document.getElementById('btn');
+  const errorDiv = document.getElementById('error');
+
+  if (!email || !password) {
+    showError('Please enter your email and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+  errorDiv.style.display = 'none';
+
+  try {
+    const res = await fetch('https://adzo-backend.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      showError(data.error || 'Login failed. Check your email and password.');
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+      return;
+    }
+
+    localStorage.setItem('adzo_token', data.token);
+    localStorage.setItem('adzo_user', JSON.stringify(data.user));
+    window.location.href = '/index.html';
+
+  } catch (err) {
+    showError('Cannot connect to server. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
+}
+
+function showError(msg) {
+  const errorDiv = document.getElementById('error');
+  errorDiv.textContent = msg;
+  errorDiv.style.display = 'block';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleLogin();
+});
+</script>
+</body>
+</html>
