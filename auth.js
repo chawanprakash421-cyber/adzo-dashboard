@@ -27,22 +27,34 @@ function authMiddleware(req, res, next) {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Login attempt:', email);
+
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
+
     const { data: users, error } = await supabase
       .from('users')
       .select('*')
       .eq('email', email)
       .limit(1);
+
+    console.log('User found:', users ? users.length : 0, 'Error:', error);
+
     if (error || !users || users.length === 0) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+
     const user = users[0];
+    console.log('Password hash preview:', user.password ? user.password.substring(0, 20) : 'NULL');
+
     const validPassword = await bcrypt.compare(password, user.password);
+    console.log('Password valid:', validPassword);
+
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
+
     const token = signToken(user);
     res.json({
       token,
