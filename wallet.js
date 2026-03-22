@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const supabase = require('../db/supabase');
+const supabase = require('./db/supabase');
 const { authMiddleware } = require('./auth');
 
 router.use(authMiddleware);
