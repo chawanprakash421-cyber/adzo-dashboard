@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const supabase = require('./db/supabase');
 
@@ -27,7 +26,6 @@ function authMiddleware(req, res, next) {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log('Login attempt:', email);
 
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
@@ -39,19 +37,13 @@ router.post('/login', async (req, res) => {
       .eq('email', email)
       .limit(1);
 
-    console.log('User found:', users ? users.length : 0, 'Error:', error);
-
     if (error || !users || users.length === 0) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const user = users[0];
-    console.log('Password hash preview:', user.password ? user.password.substring(0, 20) : 'NULL');
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    console.log('Password valid:', validPassword);
-
-    if (!validPassword) {
+    if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
