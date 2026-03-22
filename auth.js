@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const supabase = require('../db/supabase');
+const supabase = require('./db/supabase');
 
 function signToken(user) {
   return jwt.sign(
