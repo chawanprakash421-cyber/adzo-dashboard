@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Anthropic = require('@anthropic-ai/sdk');
-const supabase = require('../db/supabase');
+const supabase = require('./db/supabase');
 const { authMiddleware } = require('./auth');
 
 router.use(authMiddleware);
