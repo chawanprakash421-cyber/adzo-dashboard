@@ -11,6 +11,7 @@ app.use(helmet());
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL,
+    'https://adzo-dashboard.vercel.app',
     'http://localhost:5173',
     'http://localhost:3000',
   ],
