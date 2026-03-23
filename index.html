@@ -6,13 +6,7 @@
 <title>Adzo — AI Growth Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 
-  <script>
-  const token = localStorage.getItem('adzo_token');
-  const user = JSON.parse(localStorage.getItem('adzo_user') || '{}');
-  if (!token || user.role !== 'admin') {
-    window.location.href = '/login.html';
-  }
-</script><style>
+  <style>
 :root {
   --bg:#f4f6fb; --surface:#ffffff; --surface2:#f0f2f9; --surface3:#e8eaf4;
   --border:rgba(0,0,0,0.08); --border2:rgba(0,0,0,0.16);
@@ -3239,6 +3233,18 @@ window.addEventListener('DOMContentLoaded',()=>{
   if (adzoUser.role !== 'admin') {
     const adminBtn = document.getElementById('adminBtn');
     if (adminBtn) adminBtn.style.display = 'none';
+  }
+</script>
+
+<script>
+  const _token = localStorage.getItem('adzo_token');
+  const _user = JSON.parse(localStorage.getItem('adzo_user') || '{}');
+  if (!_token) {
+    window.location.replace('/login.html');
+  }
+  const _adminBtn = document.getElementById('adminBtn');
+  if (_adminBtn && _user.role !== 'admin') {
+    _adminBtn.style.display = 'none';
   }
 </script>
 </body>
