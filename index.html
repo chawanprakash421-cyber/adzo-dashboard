@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <script>if(!localStorage.getItem('adzo_token')){window.location.replace('/login.html');}</script>
+<script>if(!localStorage.getItem('adzo_token')){window.location.replace('/login.html');};</script>
+  <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Adzo — AI Growth Platform</title>
@@ -3229,24 +3229,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
 });
 </script>
-<script>
-  const adzoUser = JSON.parse(localStorage.getItem('adzo_user') || '{}');
-  if (adzoUser.role !== 'admin') {
-    const adminBtn = document.getElementById('adminBtn');
-    if (adminBtn) adminBtn.style.display = 'none';
-  }
-</script>
 
-<script>
-  const _token = localStorage.getItem('adzo_token');
-  const _user = JSON.parse(localStorage.getItem('adzo_user') || '{}');
-  if (!_token) {
-    window.location.replace('/login.html');
-  }
-  const _adminBtn = document.getElementById('adminBtn');
-  if (_adminBtn && _user.role !== 'admin') {
-    _adminBtn.style.display = 'none';
-  }
-</script>
 </body>
 </html>
