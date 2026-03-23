@@ -560,7 +560,7 @@ textarea{resize:vertical;min-height:80px;}
   <!-- View Toggle -->
   <div class="view-sw">
     <button class="vsw-btn active" onclick="switchView('client',event)">My Business</button>
-    <button class="vsw-btn" onclick="switchView('admin',event)">Admin</button>
+    <button class="vsw-btn" id="adminBtn" onclick="switchView('admin',event)">Admin</button>
   </div>
 
   <!-- CLIENT NAV -->
@@ -3233,6 +3233,13 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
   });
 });
+</script>
+<script>
+  const adzoUser = JSON.parse(localStorage.getItem('adzo_user') || '{}');
+  if (adzoUser.role !== 'admin') {
+    const adminBtn = document.getElementById('adminBtn');
+    if (adminBtn) adminBtn.style.display = 'none';
+  }
 </script>
 </body>
 </html>
