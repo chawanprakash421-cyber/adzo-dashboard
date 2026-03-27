@@ -57,7 +57,25 @@ app.post('/webhook/lead', async (req, res) => {
     res.status(500).json({ error: 'Webhook failed' });
   }
 });
+// TEST DB CONNECTION
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
 
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('businesses')
+      .select('id, name, plan, health_score')
+      .limit(5);
+    if (error) throw error;
+    res.json({ status: 'SUCCESS ✅', message: 'Supabase connected!', businesses: data });
+  } catch (err) {
+    res.json({ status: 'FAILED ❌', message: err.message });
+  }
+});
 // ── 404 ───────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({ error: `Route ${req.method} ${req.path} not found` });
