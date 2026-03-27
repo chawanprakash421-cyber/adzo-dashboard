@@ -68,7 +68,25 @@ app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
+// — TEST DB CONNECTION
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
 
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('businesses')
+      .select('id, name, plan, health_score')
+      .limit(5);
+    if (error) throw error;
+    res.json({ status: 'SUCCESS ✅', message: 'Supabase connected!', businesses: data });
+  } catch (err) {
+    res.json({ status: 'FAILED ❌', message: err.message });
+  }
+});
 // ── START ─────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
