@@ -57,12 +57,7 @@ app.post('/webhook/lead', async (req, res) => {
     res.status(500).json({ error: 'Webhook failed' });
   }
 });
-// TEST DB CONNECTION
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+
 
 app.get('/api/test-db', async (req, res) => {
   try {
