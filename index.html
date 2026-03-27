@@ -1,5 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+  /* ============================================================
+   ADZO — RESPONSIVE CSS
+   Add this entire block just before the closing </style> tag
+   ============================================================ */
+
+/* ── HAMBURGER BUTTON (hidden on desktop) ── */
+.mob-menu-btn {
+  display: none;
+  width: 36px; height: 36px;
+  border-radius: var(--rsm);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ── SIDEBAR OVERLAY on mobile ── */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 9;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.show { display: block; }
+
+/* ── TABLET (≤ 1024px) ── */
+@media (max-width: 1024px) {
+  .sg4 { grid-template-columns: repeat(2, 1fr); }
+  .analytics-grid-3,
+  .adm-chart-grid-3 { grid-template-columns: 1fr 1fr; }
+  .g31, .cg { grid-template-columns: 1fr 1fr; }
+  .help-cats { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── MOBILE (≤ 768px) ── */
+@media (max-width: 768px) {
+
+  /* Body / App layout */
+  body { overflow: auto; height: auto; }
+  .app { flex-direction: column; height: auto; min-height: 100vh; overflow: visible; }
+
+  /* Main area */
+  .main { overflow: visible; }
+  .content { overflow: visible; padding: 14px 12px; }
+
+  /* Sidebar — slide-in drawer */
+  .sidebar {
+    position: fixed;
+    top: 0; left: -240px;
+    height: 100vh;
+    width: 228px;
+    z-index: 10;
+    transition: left 0.25s ease;
+    overflow-y: auto;
+  }
+  .sidebar.open { left: 0; }
+
+  /* Topbar */
+  .topbar {
+    padding: 0 12px;
+    gap: 8px;
+    position: sticky; top: 0; z-index: 8;
+  }
+  .srch { display: none; }
+  .mob-menu-btn { display: flex; }
+  .tbar-title { font-size: 14px; }
+
+  /* Quick action button — shorter text */
+  #qaWrap .btn-p { padding: 6px 10px; font-size: 11px; }
+
+  /* Stat grids → single column */
+  .sg4, .sg3, .sg2,
+  .g32, .g21, .g31,
+  .cg,
+  .analytics-grid,
+  .analytics-grid-3,
+  .adm-chart-grid,
+  .adm-chart-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Home page 3-col bottom row */
+  #page-home > div:last-child {
+    display: flex !important;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* WhatsApp inbox — stack sidebar + chat */
+  #page-whatsapp .card > div[style*="grid-template-columns"] {
+    display: flex !important;
+    flex-direction: column;
+    height: auto !important;
+  }
+  #page-whatsapp .card > div > div:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  /* Help categories → 2 columns */
+  .help-cats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+  /* Festival cards → single column */
+  .fest-cards { grid-template-columns: 1fr !important; }
+
+  /* Tables — horizontal scroll */
+  .card, .chart-card {
+    overflow-x: auto;
+  }
+  table { min-width: 500px; }
+
+  /* Stat value font */
+  .sval { font-size: 22px; }
+  .wamt { font-size: 26px; }
+
+  /* Zoya / Priya card chips wrap */
+  .zoya-chips { flex-wrap: wrap; gap: 6px; }
+  .zchip { font-size: 10px; padding: 3px 9px; }
+
+  /* Priya chat popup — full width on mobile */
+  .zoya-chat-popup {
+    right: 8px; left: 8px;
+    width: auto;
+    bottom: 80px;
+  }
+
+  /* FAB position */
+  .zoya-fab { bottom: 16px; right: 16px; }
+
+  /* Briefing card */
+  .briefing-bullets { flex-direction: column; gap: 6px; }
+
+  /* Header popups — full width */
+  .hpopup { width: calc(100vw - 24px) !important; right: -8px; }
+
+  /* Leaderboard bar width */
+  .lb-bar { width: 50px; }
+
+  /* Listing grid → 1 col */
+  .g31 { grid-template-columns: 1fr !important; }
+
+  /* Period tabs */
+  .period-tabs { flex-wrap: wrap; gap: 4px; }
+
+  /* Action items — stack buttons */
+  .action-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .action-item > div:last-child {
+    flex-direction: row !important;
+    width: 100%;
+  }
+
+  /* View switch */
+  .view-sw { margin: 8px 12px; }
+
+  /* Page header */
+  .ph h2 { font-size: 17px; }
+  .ph p { font-size: 11px; }
+
+  /* Wallet card grid */
+  .wallet-glow div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── SMALL MOBILE (≤ 400px) ── */
+@media (max-width: 400px) {
+  .sg4 { grid-template-columns: 1fr; }
+  .help-cats { grid-template-columns: 1fr 1fr; }
+  .filters { gap: 4px; }
+  .fpill { font-size: 10px; padding: 3px 8px; }
+  .sval { font-size: 20px; }
+}
 <script>if(!localStorage.getItem('adzo_token')){window.location.replace('/login.html');};</script>
   <head>
 <meta charset="UTF-8"/>
@@ -618,6 +797,8 @@ textarea{resize:vertical;min-height:80px;}
 
   <!-- TOPBAR -->
   <div class="topbar">
+    <button class="mob-menu-btn" onclick="toggleSidebar()">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
     <div class="tbar-title" id="tbarTitle">Home</div>
     <div style="display:flex;align-items:center;gap:10px">
       <div class="srch">🔍&nbsp; Search leads, campaigns...</div>
@@ -3226,6 +3407,23 @@ window.addEventListener('DOMContentLoaded',()=>{
     if(!e.target.closest('.zoya-fab')&&!e.target.closest('.zoya-chat-popup')){
       // keep chat open
     }
+  });
+});
+  function toggleSidebar(){
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+window.toggleSidebar = toggleSidebar;
+window.closeSidebar = closeSidebar;
+
+// Auto-close sidebar when nav item clicked on mobile
+document.querySelectorAll('.nitem').forEach(n=>{
+  n.addEventListener('click',()=>{
+    if(window.innerWidth<=768) closeSidebar();
   });
 });
 </script>
